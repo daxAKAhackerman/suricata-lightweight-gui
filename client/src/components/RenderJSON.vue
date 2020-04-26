@@ -1,44 +1,42 @@
 <template>
   <b-container fluid>
     <b-form-group
-      id="input-group-size"
       label="Number of elements to fetch: "
       label-for="input-field-size"
     >
       <b-input-group>
         <b-form-input id="input-field-size" v-model="size"></b-form-input>
         <b-input-group-append>
-          <b-button variant="primary" id="input-field-button" @click="getData">Fetch</b-button>
+          <b-button variant="primary" @click="getData">Fetch</b-button>
         </b-input-group-append>
       </b-input-group>
     </b-form-group>
 
-    <b-form-group id="input-group-buttonFilter">
-      <b-button variant="primary" id="input-field-button" v-b-toggle.filtersCollapse>Filter...</b-button>
+    <b-form-group>
+      <b-button variant="primary" v-b-toggle.filtersCollapse>Filter...</b-button>
     </b-form-group>
     <b-collapse id="filtersCollapse">
       <b-card>
         <b-form-group
-          id="input-group-perPage"
           label="Number of elements per page: "
           label-for="input-field-perPage"
         >
           <b-form-input id="input-field-perPage" v-model="perPage"></b-form-input>
         </b-form-group>
-        <b-form-group label="Filter (supports regex)" label-for="filterInput">
+        <b-form-group label="Filter (supports regex)" label-for="input-field-filter">
           <b-input-group>
             <b-form-input
               v-model="filter"
               type="search"
-              id="filterInput"
-              placeholder="Type to Search"
+              id="input-field-filter"
+              placeholder="Type to search"
             ></b-form-input>
             <b-input-group-append>
               <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
-        <b-form-group label="Filter On" description="Leave all unchecked to filter on all data">
+        <b-form-group label="Filter on" description="Leave all unchecked to filter on all data">
           <b-form-checkbox-group v-model="filterOn">
             <b-form-checkbox value="timestamp">Timestamp</b-form-checkbox>
             <b-form-checkbox value="src_ip">Source IP</b-form-checkbox>
@@ -58,7 +56,6 @@
       :filterIncludedFields="filterOn"
       @filtered="onFiltered"
       :filter="searchRegex"
-      id="my-table"
       :items="alerts"
       :per-page="perPage"
       :current-page="currentPage"
@@ -109,31 +106,38 @@ export default {
       fields: [
         {
           key: "timestamp",
-          sortable: true
+          sortable: true, 
+          label: 'Timestamp'
         },
         {
           key: "src_ip",
-          sortable: true
+          sortable: true,
+          label: 'Source IP'
         },
         {
           key: "src_port",
-          sortable: true
+          sortable: true, 
+          label: 'Source port'
         },
         {
           key: "dest_ip",
-          sortable: true
+          sortable: true,
+          label: 'Destination IP'
         },
         {
           key: "dest_port",
-          sortable: true
+          sortable: true, 
+          label: 'Destination port'
         },
         {
           key: "proto",
-          sortable: true
+          sortable: true,
+          label: 'Protocol'
         },
         {
           key: "alert.signature",
-          sortable: true
+          sortable: true,
+          label: "Signature"
         }
       ],
       filter: "",
@@ -158,7 +162,6 @@ export default {
         });
     },
     onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
     }
   },
@@ -168,7 +171,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;
