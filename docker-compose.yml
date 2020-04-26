@@ -5,7 +5,7 @@ services:
       context: '.'
       dockerfile: 'Dockerfile.backend'
     restart: 'unless-stopped'
-    volume: 
+    volumes: 
       - '/var/log/suricata/eve.json:/var/log/suricata/eve.json'
     environment:
       SURICATA_EVE_FILE: '/var/log/suricata/eve.json'
