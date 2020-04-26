@@ -1,5 +1,6 @@
 autopep8==1.5.2
 click==7.1.1
+file-read-backwards==2.0.0
 Flask==1.1.2
 itsdangerous==1.1.0
 Jinja2==2.11.2

@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  backend: 
+    build:
+      context: '.'
+      dockerfile: 'Dockerfile.backend'
+    restart: 'unless-stopped'
+    volume: 
+      - '/var/log/suricata/eve.json:/var/log/suricata/eve.json'
+    environment:
+      SURICATA_EVE_FILE: '/var/log/suricata/eve.json'
+
+  frontend:
+    build:
+      context: '.'
+      dockerfile: 'Dockerfile.frontend'
+    depends_on: 
+      - 'backend'
+    ports:
+     - '8888:80'
+    restart: 'unless-stopped'
+
