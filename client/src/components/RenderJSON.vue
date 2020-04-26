@@ -1,9 +1,6 @@
 <template>
   <b-container fluid>
-    <b-form-group
-      label="Number of elements to fetch: "
-      label-for="input-field-size"
-    >
+    <b-form-group label="Number of elements to fetch: " label-for="input-field-size">
       <b-input-group>
         <b-form-input id="input-field-size" v-model="size"></b-form-input>
         <b-input-group-append>
@@ -17,10 +14,7 @@
     </b-form-group>
     <b-collapse id="filtersCollapse">
       <b-card>
-        <b-form-group
-          label="Number of elements per page: "
-          label-for="input-field-perPage"
-        >
+        <b-form-group label="Number of elements per page: " label-for="input-field-perPage">
           <b-form-input id="input-field-perPage" v-model="perPage"></b-form-input>
         </b-form-group>
         <b-form-group label="Filter (supports regex)" label-for="input-field-filter">
@@ -65,7 +59,20 @@
       @row-clicked="item=>$set(item, '_showDetails', !item._showDetails)"
     >
       <template v-slot:row-details="row">
+        <h3>Data</h3>
         <vue-code-highlight language="json">{{ row.item }}</vue-code-highlight>
+        <div v-if="row.item.payload !== undefined">
+          <h3>Payload</h3>
+          <vue-code-highlight language="http">{{ debase(row.item.payload) }}</vue-code-highlight>
+        </div>
+        <div v-if="row.item.http !== undefined">
+          <h3>HTTP request body</h3>
+          <vue-code-highlight language="http">{{ debase(row.item.http.http_request_body) }}</vue-code-highlight>
+        </div>
+        <div v-if="row.item.http !== undefined">
+          <h3>HTTP response body</h3>
+          <vue-code-highlight language="http">{{ debase(row.item.http.http_response_body) }}</vue-code-highlight>
+        </div>
       </template>
       <template v-slot:cell(src_ip)="row">
         <b-link
@@ -106,33 +113,33 @@ export default {
       fields: [
         {
           key: "timestamp",
-          sortable: true, 
-          label: 'Timestamp'
+          sortable: true,
+          label: "Timestamp"
         },
         {
           key: "src_ip",
           sortable: true,
-          label: 'Source IP'
+          label: "Source IP"
         },
         {
           key: "src_port",
-          sortable: true, 
-          label: 'Source port'
+          sortable: true,
+          label: "Source port"
         },
         {
           key: "dest_ip",
           sortable: true,
-          label: 'Destination IP'
+          label: "Destination IP"
         },
         {
           key: "dest_port",
-          sortable: true, 
-          label: 'Destination port'
+          sortable: true,
+          label: "Destination port"
         },
         {
           key: "proto",
           sortable: true,
-          label: 'Protocol'
+          label: "Protocol"
         },
         {
           key: "alert.signature",
@@ -163,6 +170,9 @@ export default {
     },
     onFiltered(filteredItems) {
       this.totalRows = filteredItems.length;
+    },
+    debase(b64Data) {
+      return atob(b64Data);
     }
   },
   created() {
