@@ -178,7 +178,7 @@ export default {
       this.totalRows = filteredItems.length;
     },
     debase(b64Data) {
-      return decodeURIComponent(escape(atob(b64Data)));
+      return atob(b64Data);
     }
   },
   created() {
