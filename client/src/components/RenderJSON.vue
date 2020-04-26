@@ -58,20 +58,26 @@
       :fields="fields"
       @row-clicked="item=>$set(item, '_showDetails', !item._showDetails)"
     >
-      <template v-slot:row-details="row">
-        <h3>Data</h3>
-        <vue-code-highlight language="json">{{ row.item }}</vue-code-highlight>
+      <template v-slot:row-details="row" class="test">
+        <div>
+          <h3>Data</h3>
+          <vue-code-highlight language="json">{{ row.item }}</vue-code-highlight>
+        </div>
         <div v-if="row.item.payload !== undefined">
           <h3>Payload</h3>
           <vue-code-highlight language="http">{{ debase(row.item.payload) }}</vue-code-highlight>
         </div>
         <div v-if="row.item.http !== undefined">
-          <h3>HTTP request body</h3>
-          <vue-code-highlight language="http">{{ debase(row.item.http.http_request_body) }}</vue-code-highlight>
+          <div v-if="row.item.http.http_request_body !== undefined">
+            <h3>HTTP request body</h3>
+            <vue-code-highlight language="http">{{ debase(row.item.http.http_request_body) }}</vue-code-highlight>
+          </div>
         </div>
         <div v-if="row.item.http !== undefined">
-          <h3>HTTP response body</h3>
-          <vue-code-highlight language="http">{{ debase(row.item.http.http_response_body) }}</vue-code-highlight>
+          <div v-if="row.item.http.http_response_body">
+            <h3>HTTP response body</h3>
+            <vue-code-highlight language="http">{{ debase(row.item.http.http_response_body) }}</vue-code-highlight>
+          </div>
         </div>
       </template>
       <template v-slot:cell(src_ip)="row">
@@ -172,7 +178,7 @@ export default {
       this.totalRows = filteredItems.length;
     },
     debase(b64Data) {
-      return atob(b64Data);
+      return decodeURIComponent(escape(atob(b64Data)));
     }
   },
   created() {
