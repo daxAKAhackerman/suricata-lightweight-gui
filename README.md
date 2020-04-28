@@ -9,6 +9,9 @@ cd suricata-lightweight-gui
 docker-compose up -d
 ```
 ## Pictures
+### Dashboard
 ![Alt text](/pictures/dashboard.png?raw=true "Dashboard")
+### Filters
 ![Alt text](/pictures/filters.png?raw=true "Filters")
+### Details
 ![Alt text](/pictures/details.png?raw=true "Details")
