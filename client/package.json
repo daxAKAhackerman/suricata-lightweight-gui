@@ -12,7 +12,8 @@
     "bootstrap-vue": "^2.12.0",
     "core-js": "^3.6.4",
     "vue": "^2.6.11",
-    "vue-code-highlight": "^0.7.4"
+    "vue-code-highlight": "^0.7.4",
+    "vue-json-pretty": "^1.6.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",

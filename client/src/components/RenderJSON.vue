@@ -2,7 +2,7 @@
   <b-container fluid>
     <b-form-group label="Number of elements to fetch: " label-for="input-field-size">
       <b-input-group>
-        <b-form-input id="input-field-size" v-model="size"></b-form-input>
+        <b-form-input @keyup.enter="getData" id="input-field-size" v-model="size"></b-form-input>
         <b-input-group-append>
           <b-button variant="primary" @click="getData">Fetch</b-button>
         </b-input-group-append>
@@ -61,22 +61,22 @@
       <template v-slot:row-details="row" class="test">
         <div>
           <h3>Data</h3>
-          <vue-code-highlight language="json">{{ row.item }}</vue-code-highlight>
+          <vue-json-pretty style="background: #1d262f; color: #57718e; overflow-wrap: anywhere" :deep="1" :showLength="true" :data="row.item"></vue-json-pretty>
         </div>
-        <div v-if="row.item.payload !== undefined">
+        <div v-if="row.item.payload !== undefined && row.item.payload !== ''">
           <h3>Payload</h3>
-          <vue-code-highlight language="http">{{ debase(row.item.payload) }}</vue-code-highlight>
+          <vue-code-highlight style="overflow-wrap: anywhere" language="http">{{ debase(row.item.payload) }}</vue-code-highlight>
         </div>
         <div v-if="row.item.http !== undefined">
           <div v-if="row.item.http.http_request_body !== undefined">
             <h3>HTTP request body</h3>
-            <vue-code-highlight language="http">{{ debase(row.item.http.http_request_body) }}</vue-code-highlight>
+            <vue-code-highlight style="overflow-wrap: anywhere" language="http">{{ debase(row.item.http.http_request_body) }}</vue-code-highlight>
           </div>
         </div>
         <div v-if="row.item.http !== undefined">
           <div v-if="row.item.http.http_response_body">
             <h3>HTTP response body</h3>
-            <vue-code-highlight language="http">{{ debase(row.item.http.http_response_body) }}</vue-code-highlight>
+            <vue-code-highlight style="overflow-wrap: anywhere" language="html">{{ debase(row.item.http.http_response_body) }}</vue-code-highlight>
           </div>
         </div>
       </template>
@@ -98,13 +98,15 @@
 <script>
 import { component as VueCodeHighlight } from "vue-code-highlight";
 import axios from "axios";
+import VueJsonPretty from "vue-json-pretty";
 
 const basePath = "/api";
 
 export default {
   name: "RenderJSON",
   components: {
-    VueCodeHighlight
+    VueCodeHighlight,
+    VueJsonPretty
   },
   mounted() {
     this.totalRows = this.alerts.length;
